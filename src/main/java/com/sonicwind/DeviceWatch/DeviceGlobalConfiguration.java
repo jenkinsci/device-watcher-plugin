@@ -1,4 +1,4 @@
-package com.pilz.pnozmulti.DeviceWatch;
+package com.sonicwind.DeviceWatch;
 
 import org.kohsuke.stapler.StaplerRequest;
 

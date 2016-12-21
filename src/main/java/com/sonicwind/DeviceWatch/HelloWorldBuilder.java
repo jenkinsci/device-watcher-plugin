@@ -1,4 +1,4 @@
-package com.pilz.pnozmulti.DeviceWatch;
+package com.sonicwind.DeviceWatch;
 
 import hudson.Launcher;
 import hudson.Extension;
@@ -134,7 +134,7 @@ public class HelloWorldBuilder extends Builder implements SimpleBuildStep
        */
       public String getDisplayName()
       {
-         return "PNOZMulti Device Present?";
+         return "Device Present?";
       }
 
       @Override

@@ -1,4 +1,4 @@
-package com.pilz.pnozmulti.DeviceWatch;
+package com.sonicwind.DeviceWatch;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -8,19 +8,24 @@ import hudson.Extension;
 import hudson.model.AdministrativeMonitor;
 
 @Extension
-public class PNOZMultiDeviceMonitor extends AdministrativeMonitor
+public class DeviceMonitor extends AdministrativeMonitor
 {
 
    @Override
    public String getDisplayName()
    {
-      return "PNOZMulti Device Watcher";
+      return "Device Watcher";
    }
 
    @Override
    public boolean isActivated()
    {
       DeviceGlobalConfiguration ds = new DeviceGlobalConfiguration().get();
+
+      if (ds == null)
+      {
+         return false;
+      }
 
       boolean reachable = false;
       for (String s : ds.getAddresses().split(","))
