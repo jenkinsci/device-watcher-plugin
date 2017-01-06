@@ -22,7 +22,7 @@ public class DeviceMonitor extends AdministrativeMonitor
    {
       DeviceGlobalConfiguration ds = new DeviceGlobalConfiguration().get();
 
-      if (ds == null || ds.getAddresses() == null)
+      if ((ds == null || ds.getAddresses() == null) || !isEnabled())
       {
          return false;
       }
