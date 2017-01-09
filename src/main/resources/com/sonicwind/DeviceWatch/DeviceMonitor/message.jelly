@@ -1,6 +1,7 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" >
- 	<div class='warning'>
-		<b>A device is unavailable</b>
-	</div>
+	
+	 <j:forEach items="${it.listOffline}" var="i">
+          <div class='warning'>  ${i} is unavailable</div><br/>
+      </j:forEach>      
 </j:jelly>
