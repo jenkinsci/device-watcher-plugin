@@ -2,7 +2,6 @@ package com.sonicwind.DeviceWatch;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Timer;
@@ -11,104 +10,149 @@ import java.util.TimerTask;
 import hudson.Extension;
 import hudson.model.AdministrativeMonitor;
 
+/**
+ * *******************************************************************
+ * 
+ * This class has multiple uses:
+ * 
+ * 1) Manages the Scanner Task
+ * 
+ * 2) Decides if the popup should be shown
+ * 
+ * 3) Decides what should be in the popup
+ * 
+ * @author pbuckley
+ * @version 0.8
+ ********************************************************************
+ */
 @Extension
 public class DeviceMonitor extends AdministrativeMonitor
 {
-   ArrayList<String> offline = new ArrayList<>();
+   private ArrayList<String> offline = new ArrayList<>();
 
-   Timer scanTimer = null;
+   private Timer scanTimer = null;
 
+   /**
+    * Name of the Administrative Monitor
+    */
    @Override
    public String getDisplayName()
    {
       return "Device Watcher";
    }
 
+   /**
+    * Should the Administrative Monitor show on all of the Jenkins Pages?
+    */
    @Override
    public boolean isActivated()
    {
-
+      // Return Early if it isint enabled.
       if (!isEnabled())
       {
          return false;
       }
 
+      // Only set up one timer
       if (scanTimer == null)
       {
          scanTimer = new Timer(true);
+
+         // Timer runs every 10 seconds
          scanTimer.scheduleAtFixedRate(new ScanTimer(), 0, 10000);
       }
 
+      // Only show if we have offline devices
       return !offline.isEmpty();
    }
 
+   /**
+    * JELLY METHOD:
+    * 
+    * This method allows the jelly script to get the list of offline devices
+    * 
+    * @return list of offline devices
+    */
    public ArrayList<String> getListOffline()
    {
       return offline;
    }
 
+   /**
+    * *******************************************************************
+    * 
+    * Thread that scans all of the hosts found in the global configuration
+    * 
+    * @author pbuckley
+    * @version 0.8
+    ********************************************************************
+    */
    private class ScanTimer extends TimerTask
    {
 
       @Override
       public void run()
       {
+         // Store the offline devices
          ArrayList<String> offlineDevices = new ArrayList<>();
-         LinkedHashSet<String> device = new LinkedHashSet<>();
-         DeviceGlobalConfiguration ds = new DeviceGlobalConfiguration().get();
 
-         if (ds == null || ds.getAddresses() == null)
+         // This is used to implicitly remove any duplicates from the CSL given by the user
+         LinkedHashSet<String> devices = new LinkedHashSet<>();
+
+         // Get the global config
+         DeviceGlobalConfiguration globalConfig = new DeviceGlobalConfiguration().get();
+
+         // Sanity Check global config
+         if (globalConfig == null || globalConfig.getAddresses() == null)
          {
             return;
          }
 
-         String unfiltered[] = ds.getAddresses().split(",");
+         // unsanitized device list
+         String unsanitized[] = globalConfig.getAddresses().split(",");
 
-         for (String unfilteredDevice : unfiltered)
+         /*
+          * This loop trims the string, ensures each host isin't empty or contains a space.
+          * 
+          * Finally, it is added to a set that doesnt allow duplicates.
+          */
+         for (String device : unsanitized)
          {
-
-            unfilteredDevice = unfilteredDevice.trim();
-            if (unfilteredDevice.isEmpty())
+            device = device.trim();
+            if (!device.isEmpty() && !device.contains(" "))
             {
-               continue;
+               devices.add(device);
             }
-            device.add(unfilteredDevice);
-
          }
 
+         // Ensure the list is empty
          offlineDevices.clear();
-         for (String s : device)
-         {
-            System.out.println("Checking: " + s);
 
+         // Scan each device with ICMP
+         for (String device : devices)
+         {
             try
             {
-               InetAddress host = InetAddress.getByName(s);
+               InetAddress host = InetAddress.getByName(device);
 
-
-               if (!host.isReachable(10000))
+               if (!host.isReachable(1000))
                {
-                  System.out.println(s + "was unreachable");
-                  offlineDevices.add(s);
+                  offlineDevices.add(device);
                }
-            }
-            catch (UnknownHostException ue)
-            {
-               ue.printStackTrace();
             }
             catch (IOException ex)
             {
                ex.printStackTrace();
-               System.out.println(s + " has an IO Exception");
-               if (!offline.contains(s))
+
+               if (!offlineDevices.contains(device))
                {
-                  offlineDevices.add(s);
+                  offlineDevices.add(device);
                }
             }
 
-
          }
 
+         // Set the global object (dangerous I know)
          offline = offlineDevices;
       }
    }
@@ -116,8 +160,5 @@ public class DeviceMonitor extends AdministrativeMonitor
 }
 
 /*
- * Copyright 2016 Pilz Ireland Industrial Automation Ltd. All Rights Reserved. PILZ
- * PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- * 
  * Created on 13 Dec 2016 by pbuckley
  */
