@@ -28,8 +28,8 @@
     -->
   </properties>
 
-  <name>Device Watch Plugin</name>
-  <description>Watch PNOZ Multi Devices connected to Jenkins</description>
+  <name>Device Watcher</name>
+  <description>Watch the state of devices connected to Jenkins</description>
   <url>https://wiki.jenkins-ci.org/display/JENKINS/TODO+Plugin</url>
 
   <!-- The default licence for Jenkins OSS Plugins is MIT. Substitute for the applicable one if needed. -->
