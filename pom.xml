@@ -10,7 +10,7 @@
     <relativePath/>
   </parent>
   <groupId>com.sonicwind</groupId>
-  <artifactId>DeviceWatch</artifactId>
+  <artifactId>device-watcher</artifactId>
   <version>0.8</version>
   <packaging>hpi</packaging>
 
