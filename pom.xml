@@ -9,7 +9,7 @@
     <version>2.11</version>
     <relativePath/>
   </parent>
-  <groupId>com.sonicwind</groupId>
+  <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>device-watcher</artifactId>
   <version>0.8</version>
   <packaging>hpi</packaging>
@@ -48,13 +48,13 @@
       <email>pbuckley4192@gmail.com</email>
     </developer>
   </developers>
-  <!-- Assuming you want to host on @jenkinsci:
+  <!-- Assuming you want to host on @jenkinsci:-->
   <scm>
     <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
     <url>http://github.com/jenkinsci/${project.artifactId}-plugin</url>
   </scm>
-   -->
+
   <repositories>
     <repository>
       <id>repo.jenkins-ci.org</id>
