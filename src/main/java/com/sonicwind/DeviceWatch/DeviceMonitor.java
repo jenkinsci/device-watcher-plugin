@@ -155,19 +155,25 @@ public class DeviceMonitor extends AdministrativeMonitor
          // Set the global object (dangerous I know)
          offline = offlineDevices;
       }
-      
-      private boolean proxyedHost(String host) {
-			try {
-				String command = (System.getProperty("os.name").toLowerCase().indexOf("win")>=0) ? "-n 1 -w 1000 " : "-c 1 -W 1 ";
-				String totalCommand = "ping " + command + host ;
-				Process p = Runtime.getRuntime().exec(totalCommand);
-				p.waitFor();
-				return (p.exitValue() == 0);
-			} catch (Exception e) {
-				return false;
-			}
-		}
 
+      private boolean proxyedHost(String host)
+      {
+         try
+         {
+            String command = (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0)
+                  ? "-n 1 -w 1000 " : "-c 1 -W 1 ";
+            String totalCommand = "ping " + command + host;
+            Process p = Runtime.getRuntime().exec(totalCommand);
+            p.waitFor();
+            return (p.exitValue() == 0);
+         }
+         catch (IOException | InterruptedException | RuntimeException e)
+         {
+            return false;
+
+         }
+
+      }
 
    }
 
