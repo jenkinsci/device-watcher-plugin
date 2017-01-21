@@ -10,7 +10,7 @@
   </parent>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>device-watcher</artifactId>
-  <version>0.9</version>
+  <version>0.9-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <properties>
@@ -49,9 +49,9 @@
   </developers>
   <!-- Assuming you want to host on @jenkinsci:-->
   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-    <url>http://github.com/jenkinsci/${project.artifactId}-plugin</url>
+    <connection>scm:git:git://github.com/jenkinsci/device-watcher-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/device-watcher-plugin.git</developerConnection>
+    <url>http://github.com/jenkinsci/device-watcher-plugin</url>
     <tag>device-watcher-0.9</tag>
   </scm>
 
