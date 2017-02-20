@@ -1,3 +1,5 @@
+[![Build Status](https://jenkins.ci.cloudbees.com/buildStatus/icon?job=plugins/device-watcher-plugin)](https://jenkins.ci.cloudbees.com/job/plugins/device-watcher-plugin)
+
 # Jenkins Device Watcher Plugin
 A plugin to notify an administrator when an IP Address becomes unreachable,
 this is useful for ensuring embedded devices are up, a core server is available, etc.
